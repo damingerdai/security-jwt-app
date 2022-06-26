@@ -1,7 +1,24 @@
 server:
   port: 8080
 spring:
-  security:
-    user:
-      name: daming
-      password: 12345
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/spring_security
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  #mapper????
+  mapper-locations: classpath:mapper/*.xml
+jwt:
+  # jwt???????
+  secret: rstyro2dcad64e9cbd542c5584f1103110e6ce2dcad64e9cbd542c5584rstyro
+  # ?????????
+  expireTime: 30
+  subject: token
+logging:
+  level:
+    root: debug
+

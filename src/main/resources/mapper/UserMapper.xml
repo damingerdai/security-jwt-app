@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.damingerdai.securityjwtapp.repository.mapper.UserMapper">
+
+    <select id="get" parameterType="java.lang.String" resultType="com.damingerdai.securityjwtapp.domain.User">
+        SELECT id, username, nick_name, password FROM users WHERE id = #{id} AND deleted_at IS NULL LIMIT 1
+    </select>
+
+    <select id="getByUsername" parameterType="java.lang.String" resultType="com.damingerdai.securityjwtapp.domain.User">
+        SELECT id, username, nick_name, password FROM users WHERE username = #{username} AND deleted_at IS NULL LIMIT 1
+    </select>
+
+    <select id="list" resultType="com.damingerdai.securityjwtapp.domain.User">
+        SELECT id, username, nick_name, password FROM users WHERE deleted_at IS NULL
+    </select>
+
+    <insert id="create">
+        INSERT INTO (
+            username, nick_name, password,
+            created_at, created_user, updated_at, updated_user
+        ) VALUES
+        (
+            #{username}, #{nickName}, #{password},
+            CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP, 'system'
+        ) RETURNING id
+    </insert>
+</mapper>
