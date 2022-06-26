@@ -32,3 +32,7 @@ curl --location --request GET 'http://127.0.0.1:8080/login' \
 curl --location --request GET 'http://127.0.0.1:8080/test/list' \
 --header 'Authorization: Bearer ${token_from_last_step'
 ```
+
+## reference
+
+1. [Spring-security与JWT前后端分离](https://rstyro.github.io/blog/2021/07/23/Spring-security%E4%B8%8EJWT%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/)
