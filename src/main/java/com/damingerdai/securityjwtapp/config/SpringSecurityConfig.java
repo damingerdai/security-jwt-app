@@ -4,10 +4,11 @@ import com.damingerdai.securityjwtapp.filter.JWTLoginFilter;
 import com.damingerdai.securityjwtapp.filter.SecurityAuthTokenFilter;
 import com.damingerdai.securityjwtapp.service.impl.SecurityUserService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -23,7 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @EnableWebSecurity
 //开启权限注解,默认是关闭的
-@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
+@EnableMethodSecurity(securedEnabled = true,prePostEnabled = true)
+@Configuration
 public class SpringSecurityConfig {
 
     @Bean
@@ -50,9 +52,9 @@ public class SpringSecurityConfig {
         };
         //对于在header里面增加token等类似情况，放行所有OPTIONS请求。
         return (web) -> web.ignoring()
-                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .requestMatchers(HttpMethod.OPTIONS, "/**")
                 // 可以直接访问的静态数据或接口
-                .antMatchers(authWhiteList);
+                .requestMatchers(authWhiteList);
     }
 
     @Bean
@@ -61,10 +63,10 @@ public class SpringSecurityConfig {
         authenticationManagerBuilder.userDetailsService(securityUserService).passwordEncoder(passwordEncoder);
         var authenticationManager = authenticationManagerBuilder.build();
         http
-                .authorizeRequests()// 授权
-                .antMatchers("/index/**").anonymous()// 匿名用户权限
-                .antMatchers("/api/**").hasRole("USER")//普通用户权限
-                .antMatchers("/login").permitAll()
+                .authorizeHttpRequests()// 授权
+                .requestMatchers("/index/**").anonymous()// 匿名用户权限
+                .requestMatchers("/api/**").hasRole("USER")//普通用户权限
+                .requestMatchers("/login").permitAll()
                 //其他的需要授权后访问
                 .anyRequest().authenticated()
                 .and()// 异常
