@@ -1,0 +1,21 @@
+version: "3"
+services:
+  pg:
+    image: postgres:15
+    container_name: pg
+    ports:
+      - 5432:5432
+    volumes:
+      - sja-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: spring_security
+    networks:
+      - sja-network
+volumes:
+  sja-volume:
+    external: true
+networks:
+  sja-network:
+    external: true
