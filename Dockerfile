@@ -7,7 +7,7 @@ RUN mvn clean install
 COPY src /app/src
 RUN mvn package -Dmaven.test.skip=true
 
-FROM openjdk:21-jdk-slim
+FROM openjdk:25-jdk-slim
 WORKDIR /app
 COPY --from=back-build /app/target/*.jar /app/app.jar
 ENV TZ=Aisa/Shanghai
